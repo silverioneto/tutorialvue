@@ -14,3 +14,8 @@ Route::middleware('guest')->group(function (){
     Route::post('/login', [AuthenticateController::class, 'store']);
 });
 
+Route::middleware('auth')->group(function (){
+    //---------------- LOGOUT ---------------------//
+    Route::post('/logout', [AuthenticateController::class, 'destroy'])->name('logout');
+});
+
