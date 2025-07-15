@@ -1,18 +1,14 @@
 <script setup>
 import Container from "../../Components/Container.vue";
-import Title from "../../Components/Title.vue";
-import TextLink from "../../Components/TextLink.vue";
 import InputField from "../../Components/InputField.vue";
 import PrimaryBtn from "../../Components/PrimaryBtn.vue";
 import ErrorMessages from "../../Components/ErrorMessages.vue";
 import SessionMessages from "../../Components/SessionMessages.vue";
+
 import { useForm } from "@inertiajs/vue3";
-import CheckBox from "../../Components/CheckBox.vue";
 
 const form = useForm({
     email: "",
-    password: "",
-    remember: null,
 })
 
 defineProps({
@@ -20,44 +16,33 @@ defineProps({
 })
 
 const submit = () => {
-    form.post(route('login'), {
-        onFinish: () => form.reset('password')
-    })
+    form.post(route('password.email'));
 }
 
 </script>
 
 <template>
 
-    <Head title="- Login" />
+    <Head title="- Forgot Passowrd" />
     <Container class="w-1/2">
         <div class="mb-8 text-center">
-            <Title>Login to your account</Title>
             <p>
-                Need an account?
-                <TextLink routeName="register" label="Register" />
+                Forgot your password? No problem.
+                Just let us know your email address and
+                we will email you a password reset link.
             </p>
         </div>
 
         <!-- Errors Messages -->
         <ErrorMessages :errors="form.errors" />
+
         <SessionMessages :status="status"/>
 
         <form @submit.prevent="submit" class="space-y-6">
 
             <InputField label="Email" type="email" icon="at" v-model="form.email" />
 
-            <InputField label="Password" type="password" icon="key" v-model="form.password" />
-
-
-            <div class="flex items-center justify-between">
-
-                <CheckBox name="remember" v-model="form.remember">Remember me</CheckBox>
-
-                <TextLink routeName="password.request" label="Forgot Password" />
-            </div>
-
-            <PrimaryBtn :disabled="form.processing">Login</PrimaryBtn>
+            <PrimaryBtn :disabled="form.processing">Send Password Reset Link</PrimaryBtn>
         </form>
     </Container>
 </template>
