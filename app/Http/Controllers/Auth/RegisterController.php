@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Auth\Events\Registered;
 
 class RegisterController extends Controller
 {
@@ -18,7 +19,7 @@ class RegisterController extends Controller
 
     public function store(Request $request)
     {
-        
+
 
         $credentials = $request->validate([
                 'name' => 'required|max:255',
@@ -27,6 +28,8 @@ class RegisterController extends Controller
         ]);
 
         $user = User::create($credentials);
+
+        event(new Registered($user));
 
         Auth::login($user);
 
